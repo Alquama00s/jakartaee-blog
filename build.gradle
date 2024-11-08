@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'org.alquama00s'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+war {
+    archiveFileName = 'blog.war'
+}
+
+dependencies {
+    implementation 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
