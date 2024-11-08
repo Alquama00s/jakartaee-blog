@@ -6,10 +6,10 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 @ApplicationScoped
-@Path("/app")
+@Path("/status")
 public class Status {
 
-    @Path("/status")
+    @Path("/")
     @GET
     public String status(){
         return "Hello World";
