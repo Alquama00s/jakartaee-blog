@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 }
 
-tasks.register('prepareServer') {
+tasks.register('prepareMicroServer') {
     def jarFile = new File(file('build/.server'), 'pm.jar')
     if (!jarFile.exists()) {
         def payaraMicroServerUrl = 'https://repo1.maven.org/maven2/fish/payara/extras/payara-micro/6.2024.10/payara-micro-6.2024.10.jar'
@@ -30,8 +30,8 @@ tasks.register('prepareServer') {
     }
 }
 
-tasks.register('payaraRun', JavaExec) {
-    dependsOn war, prepareServer
+tasks.register('payaraMicroRun', JavaExec) {
+    dependsOn war, prepareMicroServer
     classpath = files('build/.server/pm.jar')
     args = [ "--deploy", "build/libs/blog.war"]
 }
@@ -39,10 +39,16 @@ tasks.register('payaraRun', JavaExec) {
 
 war {
     archiveFileName = 'blog.war'
+//    from('src/main/resources'){
+//        include '**/*.*'
+//    }
 }
 
 dependencies {
-    implementation 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    implementation 'org.postgresql:postgresql:42.7.4'
+
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

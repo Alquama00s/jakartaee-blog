@@ -1,4 +1,4 @@
-package org.alquama00s.controller;
+package org.alquama00s.blog.controller;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,7 +12,7 @@ public class Status {
     @Path("/")
     @GET
     public String status(){
-        return "Hello World";
+        return "Hello Wordfld";
     }
 
 }
