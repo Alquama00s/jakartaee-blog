@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'war'
+    id "fish.payara.micro-gradle-plugin" version "1.1.0"
+
 }
 
 group = 'org.alquama00s'
@@ -8,6 +10,10 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+payaraMicro {
+    deployWar = true
 }
 
 tasks.register('prepareMicroServer') {
@@ -36,6 +42,22 @@ tasks.register('payaraMicroRun', JavaExec) {
     args = [ "--deploy", "build/libs/blog.war"]
 }
 
+tasks.register('payaraDeploy',Exec){
+    dependsOn war
+
+    def payaraRoot = System.getenv("PAYARA_ROOT")
+    def asadminPath = file("${payaraRoot}/bin/asadmin").absolutePath
+    def warFilePath = "${buildDir}/libs/blog.war"
+
+    commandLine = [
+            asadminPath,
+            "deploy",
+            "--force=true",
+            warFilePath
+    ]
+
+}
+
 
 war {
     archiveFileName = 'blog.war'
@@ -46,10 +68,11 @@ war {
 
 dependencies {
     compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    implementation 'org.slf4j:slf4j-api:2.0.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+
     compileOnly 'org.projectlombok:lombok:1.18.36'
-    implementation 'org.postgresql:postgresql:42.7.4'
-
-
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

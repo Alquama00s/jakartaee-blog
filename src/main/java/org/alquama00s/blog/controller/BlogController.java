@@ -2,15 +2,17 @@ package org.alquama00s.blog.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
 import org.alquama00s.blog.entity.Blog;
 import org.alquama00s.blog.service.BlogService;
 
-@ApplicationScoped
+
+@Slf4j
 @Path("blog")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class BlogController {
 
     @Inject
@@ -25,6 +27,7 @@ public class BlogController {
 
     @POST
     public Blog saveBlog(Blog blog){
+        log.error(blog.getBlog());
         return blogService.saveBlog(blog);
     }
 
